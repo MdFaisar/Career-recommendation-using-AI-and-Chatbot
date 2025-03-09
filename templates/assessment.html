@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Assessment | AI Career Advisor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/assessment.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">Code Titans</div>
+            </div>
+            <h1>Career Discovery Assessment</h1>
+            <p>Let's discover your strengths and interests</p>
+            
+            <div class="progress-tracker">
+                <div class="progress-item active" data-stage="skills">
+                    <div class="progress-icon">1</div>
+                    <div class="progress-label">Skills Assessment</div>
+                </div>
+                <div class="progress-connector"></div>
+                <div class="progress-item" data-stage="interests">
+                    <div class="progress-icon">2</div>
+                    <div class="progress-label">Interests Assessment</div>
+                </div>
+                <div class="progress-connector"></div>
+                <div class="progress-item" data-stage="profile">
+                    <div class="progress-icon">3</div>
+                    <div class="progress-label">Profile Details</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="card assessment-card">
+                <div class="card-content">
+                    <h2>Skills Assessment</h2>
+                    <p class="assessment-intro">
+                        Let's discover your key skills and strengths. Answer these questions honestly for the most accurate recommendations.
+                    </p>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-bar-inner"></div>
+                    </div>
+                    <div class="question-counter">Question 1 of {{ questions|length }}</div>
+                    
+                    <form id="assessmentForm" action="{{ url_for('assessment') }}" method="post">
+                        <input type="hidden" name="assessment_type" value="{{ assessment_type }}">
+                        <input type="hidden" name="answers" id="answersInput" value="[]">
+                        
+                        <div id="questionContainer">
+                            {% for question in questions %}
+                            <div class="question" data-category="{{ question.category }}" 
+                            {% if loop.index == 1 %} style="display: block;" {% else %} style="display: none;" {% endif %}>
+                                
+                                <h3>Question {{ loop.index }} of {{ questions|length }}</h3>
+                                <p class="question-text">{{ question.question }}</p>
+                                
+                                <div class="options">
+                                    {% for option in question.options %}
+                                    <div class="option" data-score="{{ option.score }}" {% if option.interest is defined %}data-interest="{{ option.interest }}"{% endif %}>
+                                        <div class="option-content">{{ option.text }}</div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="navigation-buttons">
+                            <button type="button" id="prevBtn" class="secondary-btn" disabled>Previous</button>
+                            <button type="button" id="nextBtn" class="primary-btn" disabled>Next</button>
+                            <button type="submit" id="submitBtn" class="primary-btn" style="display: none;">Submit Assessment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Team Code Titans</p>
+        </footer>
+    </div>
+
+    <!-- Chatbot Button -->
+    <button id="chatbotButton" class="chatbot-button">
+        <i class="fas fa-comment"></i>
+    </button>
+
+    <!-- Chatbot Dialog -->
+    <div id="chatbotDialog" class="chatbot-dialog">
+        <div class="chatbot-header">
+            <h3>Career Assistant</h3>
+            <button id="closeChatbot" class="close-button"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Type your question here...">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing your assessment...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/assessment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+</body>
+</html>

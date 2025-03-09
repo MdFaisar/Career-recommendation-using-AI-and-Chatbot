@@ -1,0 +1,36 @@
+# File layout
+
+ai-career-path-advisor/
+│
+├── .env
+├── LICENSE
+├── README.md
+├── requirements.txt
+│
+├── app.py                    # Main application entry point
+├── api_service.py            # Groq API handling
+├── chatbot_service.py         # Chatbot service logic
+├── game_service.py           # Skills & interests assessment mini-games
+│
+├── static/
+│   ├── css/
+│   │   ├── chatbot.css
+│   │   ├── login.css
+│   │   ├── result.css
+│   │   └── style.css         # Enhanced CSS with animations
+│   ├── js/
+│   │   ├── assessment.js      # Assessment game logic
+│   │   ├── chatbot.js        # Chatbot functionality
+│   │   ├── login.js         # Login page enhancements
+│   │   ├── main.js          # General JavaScript
+│   │   ├── profile.js       # Profile form logic
+│   │   ├── result.js        # Result page interactivity
+│   │   └── markdown-helper.js  #Page markdown
+│   └── images/                # Image assets
+│
+└── templates/
+    ├── index.html            # Enhanced homepage
+    ├── assessment.html       # Skills & interests assessment game
+    ├── login.html           # Login page
+    ├── profile_form.html     # Enhanced profile form
+    └── result.html           # Enhanced recommendation results

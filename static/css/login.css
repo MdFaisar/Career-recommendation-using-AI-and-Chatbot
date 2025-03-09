@@ -1,0 +1,219 @@
+/* Login page specific styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.login-header {
+    padding: 2rem 2rem 1rem;
+    text-align: center;
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+}
+
+.login-header .logo {
+    margin: 0 auto;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #f0ebf5;
+    margin-bottom: 1rem;
+}
+
+.login-header h1 {
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.login-header p {
+    color: #666;
+    margin-bottom: 0;
+}
+
+.login-content {
+    padding: 2rem;
+}
+
+.form-group, .form-pass {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label, .form-pass label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+}
+
+/* Fixed styling for both input types */
+.form-group input[type="text"],
+.form-pass input[type="password"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    height: 48px; /* Explicit height */
+    box-sizing: border-box; /* Ensure padding doesn't affect size */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-pass input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    outline: none;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.form-actions {
+    margin-top: 2rem;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.login-btn:hover {
+    background: linear-gradient(45deg, #5a71d6, #6942a4);
+    transform: translateY(-2px);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+.form-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #666;
+}
+
+.form-footer a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.form-footer a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+.error-message {
+    background-color: rgba(255, 87, 87, 0.1);
+    color: #ff5757;
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-left: 4px solid #ff5757;
+}
+
+/* Animation for login card */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Flash messages */
+.flash-message {
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-left: 4px solid;
+}
+
+.flash-message.error {
+    background-color: rgba(255, 87, 87, 0.1);
+    color: #ff5757;
+    border-left-color: #ff5757;
+}
+
+.flash-message.success {
+    background-color: rgba(75, 181, 67, 0.1);
+    color: #4bb543;
+    border-left-color: #4bb543;
+}
+
+.input-error {
+    color: #ff5757;
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+}
+
+.error-border {
+    border-color: #ff5757 !important;
+}
+
+.loader {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.login-card.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Focus effects */
+.focused label {
+    color: #667eea;
+    transform: translateY(-1.2rem) scale(0.85);
+    transform-origin: left top;
+}

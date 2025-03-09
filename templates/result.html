@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Career Recommendation - AI Career Advisor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container results-container">
+        <header class="results-header">
+            <div class="logo">Code Titans</div>
+            <h1>Your Career Path Recommendation</h1>
+            <p>Based on your profile and assessment results</p>
+            
+            <div class="header-actions">
+                <button class="action-btn save-btn"><i class="fas fa-save"></i> Save</button>
+                <button class="action-btn share-btn"><i class="fas fa-share-alt"></i> Share</button>
+                <a href="{{ url_for('logout') }}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </header>
+        
+        <div class="recommendation-tabs">
+            <button class="tab-btn active" data-tab="all">
+                <span class="tab-icon">🔍</span> All Recommendations
+            </button>
+            <button class="tab-btn" data-tab="india">
+                <span class="tab-icon">🇮🇳</span> India
+            </button>
+            <button class="tab-btn" data-tab="international">
+                <span class="tab-icon">🌐</span> International
+            </button>
+        </div>
+        
+        <div class="result-cards-container">
+            <div class="result-card">
+                <h2 class="result-card-title">Career Recommendations</h2>
+                <div class="recommendation-content">
+                    {{ recommendation|md|safe }}
+                </div>
+            </div>
+            
+            <!-- Hidden data for charts -->
+            <script id="skillsData" type="application/json">
+                {{ skills_results|tojson }}
+            </script>
+            <script id="interestsData" type="application/json">
+                {{ interests_results|tojson }}
+            </script>
+        </div>
+        
+        <div class="reset-container">
+            <a href="{{ url_for('reset') }}" class="reset-btn">Restart Assessment</a>
+        </div>
+        
+        <div id="shareDialog" class="share-dialog">
+            <div class="dialog-content">
+                <h3>Share Your Career Recommendation</h3>
+                
+                <div class="dialog-close">
+                    <button class="close-dialog"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div class="share-options">
+                    <div class="share-link">
+                        <label for="shareLink">Link to your results:</label>
+                        <div class="link-input-container">
+                            <input type="text" id="shareLink" value="{{ request.url }}" readonly>
+                            <button id="copyLinkBtn"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="share-socials">
+                        <a href="#" class="social-share-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-share-btn"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-share-btn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-share-btn"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Button -->
+    <button id="chatbotButton" class="chatbot-button">
+        <i class="fas fa-comment"></i>
+    </button>
+
+    <!-- Chatbot Dialog -->
+    <div id="chatbotDialog" class="chatbot-dialog">
+        <div class="chatbot-header">
+            <h3>Career Assistant</h3>
+            <button id="closeChatbot" class="close-button"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Type your question here...">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Rating Graph Component for Result Page -->
+<!-- Rating Graph Component for Result Page -->
+<div class="rating-graph-container">
+    <div class="graph-header">
+        <h3>Your Assessment Profile</h3>
+    </div>
+    
+    <div id="skills-rating-graph" class="rating-graph">
+        <!-- Rating items will be dynamically inserted here -->
+    </div>
+    
+    <div id="optimal-role" class="optimal-role-display">
+        <i class="fas fa-spinner fa-pulse"></i> Analyzing your ideal role...
+    </div>
+</div>
+
+<style>
+.rating-graph-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    width: 280px;
+    z-index: 10;
+}
+
+.graph-header {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.graph-header h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.rating-graph {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.rating-item {
+    width: 100%;
+}
+
+.rating-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 0.85em;
+    color: #555;
+}
+
+.rating-bar {
+    height: 8px;
+    width: 100%;
+    background-color: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.rating-fill {
+    height: 100%;
+    width: 0; /* Will be set by JS */
+    background: linear-gradient(90deg, #4d7bf3, #7c5bf7);
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+.optimal-role-display {
+    background-color: #f8f9fa;
+    border-left: 4px solid #4d7bf3;
+    padding: 15px;
+    margin-top: 5px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+    color: #444;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.optimal-role-display.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Specialty styles for different rating categories */
+.rating-fill[data-value="5"] {
+    background: linear-gradient(90deg, #4a6cf7, #6254f3);
+}
+
+.rating-fill[data-value="4"] {
+    background: linear-gradient(90deg, #5e8af5, #7c5bf7);
+}
+
+.rating-fill[data-value="3"] {
+    background: linear-gradient(90deg, #75a8f8, #9966ff);
+}
+
+.rating-fill[data-value="2"] {
+    background: linear-gradient(90deg, #8bc4fa, #b39dff);
+}
+
+.rating-fill[data-value="1"] {
+    background: linear-gradient(90deg, #a7d9ff, #c6bdff);
+}
+
+@media (max-width: 768px) {
+    .rating-graph-container {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+</style>
+
+    <script src="{{ url_for('static', filename='js/result.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+</body>
+</html>

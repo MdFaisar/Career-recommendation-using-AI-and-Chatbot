@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Career Profile | AI Career Advisor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Enhanced Form Styling - 30 lines */
+        .profile-card {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            padding: 10px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .form-group:hover {
+            border-left-color: #4a90e2;
+            background-color: rgba(74, 144, 226, 0.05);
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-hint {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        select.custom-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff;
+            font-size: 1rem;
+            color: #333;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+        }
+        .custom-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: none;
+        }
+        .primary-btn {
+            background: linear-gradient(135deg, #4a90e2, #5e72e4);
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(94, 114, 228, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">Code Titans</div>
+            </div>
+            <h1>Complete Your Career Profile</h1>
+            <p>Tell us more about yourself for personalized recommendations</p>
+            
+            <div class="progress-tracker">
+                <div class="progress-item complete" data-stage="skills">
+                    <div class="progress-icon">1</div>
+                    <div class="progress-label">Skills Assessment</div>
+                </div>
+                <div class="progress-connector"></div>
+                <div class="progress-item complete" data-stage="interests">
+                    <div class="progress-icon">2</div>
+                    <div class="progress-label">Interests Assessment</div>
+                </div>
+                <div class="progress-connector"></div>
+                <div class="progress-item active" data-stage="profile">
+                    <div class="progress-icon">3</div>
+                    <div class="progress-label">Profile Details</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="card profile-card">
+                <div class="card-content">
+                    <h2>Your Career Profile</h2>
+                    <p class="profile-intro">
+                        We've already learned about your skills and interests. Now, tell us more about your background and goals to get the most accurate career recommendations.
+                    </p>
+                    
+                    <form id="profileForm" action="{{ url_for('profile_form') }}" method="post">
+                        <div class="form-group">
+                            <label for="skills">Your Key Skills</label>
+                            <p class="form-hint">What are you good at? Include technical and soft skills.</p>
+                            <select id="skills-select" class="custom-select" onchange="handleSkillsSelect(this.value)">
+                                <option value="">Select your skills</option>
+                                <option value="programming">Programming & Development</option>
+                                <option value="design">Design & Creative</option>
+                                <option value="data">Data Analysis & Statistics</option>
+                                <option value="communication">Communication & Teamwork</option>
+                                <option value="management">Project Management</option>
+                                <option value="other">Other (Type custom skills)</option>
+                            </select>
+                            <textarea id="skills" name="skills" rows="3" class="custom-input">{{ suggested_skills }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interests">Your Interests</label>
+                            <p class="form-hint">What topics or activities do you enjoy?</p>
+                            <select id="interests-select" class="custom-select" onchange="handleInterestsSelect(this.value)">
+                                <option value="">Select your interests</option>
+                                <option value="technology">Technology & Innovation</option>
+                                <option value="science">Science & Research</option>
+                                <option value="business">Business & Entrepreneurship</option>
+                                <option value="arts">Arts & Culture</option>
+                                <option value="health">Health & Wellness</option>
+                                <option value="other">Other (Type custom interests)</option>
+                            </select>
+                            <textarea id="interests" name="interests" rows="3" class="custom-input">{{ suggested_interests }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="education">Education</label>
+                            <p class="form-hint">Your educational background, degrees, certifications, etc.</p>
+                            <select id="education-select" class="custom-select" onchange="handleEducationSelect(this.value)">
+                                <option value="">Select your highest education</option>
+                                <option value="high_school">High School Diploma</option>
+                                <option value="associates">Associate's Degree</option>
+                                <option value="bachelors">Bachelor's Degree</option>
+                                <option value="masters">Master's Degree</option>
+                                <option value="phd">Ph.D. or Doctorate</option>
+                                <option value="certifications">Professional Certifications</option>
+                                <option value="other">Other (Type custom education)</option>
+                            </select>
+                            <textarea id="education" name="education" rows="3" class="custom-input"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="experience">Work Experience</label>
+                            <p class="form-hint">Brief summary of your work history or relevant experiences.</p>
+                            <select id="experience-select" class="custom-select" onchange="handleExperienceSelect(this.value)">
+                                <option value="">Select your experience level</option>
+                                <option value="student">Student / No Experience</option>
+                                <option value="entry">Entry Level (0-2 years)</option>
+                                <option value="mid">Mid-Level (3-5 years)</option>
+                                <option value="senior">Senior Level (6-10 years)</option>
+                                <option value="expert">Expert (10+ years)</option>
+                                <option value="other">Other (Type custom experience)</option>
+                            </select>
+                            <textarea id="experience" name="experience" rows="3" class="custom-input"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="work_environment">Preferred Work Environment</label>
+                            <p class="form-hint">What type of workplace do you prefer?</p>
+                            <select id="environment-select" class="custom-select" onchange="handleEnvironmentSelect(this.value)">
+                                <option value="">Select preferred environment</option>
+                                <option value="remote">Fully Remote</option>
+                                <option value="hybrid">Hybrid (Part Remote, Part Office)</option>
+                                <option value="office">Office-based</option>
+                                <option value="outdoors">Outdoors / Field Work</option>
+                                <option value="travel">Travel-based</option>
+                                <option value="other">Other (Type custom preference)</option>
+                            </select>
+                            <textarea id="work_environment" name="work_environment" rows="2" class="custom-input"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="career_goals">Career Goals</label>
+                            <p class="form-hint">What are you hoping to achieve in your career?</p>
+                            <select id="goals-select" class="custom-select" onchange="handleGoalsSelect(this.value)">
+                                <option value="">Select your primary goal</option>
+                                <option value="advancement">Career Advancement</option>
+                                <option value="change">Career Change</option>
+                                <option value="stability">Job Stability</option>
+                                <option value="learning">Continuous Learning</option>
+                                <option value="entrepreneurship">Start My Own Business</option>
+                                <option value="other">Other (Type custom goals)</option>
+                            </select>
+                            <textarea id="career_goals" name="career_goals" rows="3" class="custom-input"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="additional_info">Additional Information</label>
+                            <p class="form-hint">Anything else you'd like us to consider.</p>
+                            <select id="additional-select" class="custom-select" onchange="handleAdditionalSelect(this.value)">
+                                <option value="">Select additional information</option>
+                                <option value="relocation">Willing to Relocate</option>
+                                <option value="salary">Salary Expectations</option>
+                                <option value="benefits">Important Benefits</option>
+                                <option value="worklife">Work-Life Balance Needs</option>
+                                <option value="other">Other (Type custom information)</option>
+                            </select>
+                            <textarea id="additional_info" name="additional_info" rows="3" class="custom-input"></textarea>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <a href="{{ url_for('assessment') }}" class="secondary-btn">Back</a>
+                            <button type="submit" class="primary-btn">Get Recommendations</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Team Code Titans</p>
+        </footer>
+    </div>
+
+    <!-- Chatbot Button -->
+    <button id="chatbotButton" class="chatbot-button">
+        <i class="fas fa-comment"></i>
+    </button>
+
+    <!-- Chatbot Dialog -->
+    <div id="chatbotDialog" class="chatbot-dialog">
+        <div class="chatbot-header">
+            <h3>Career Assistant</h3>
+            <button id="closeChatbot" class="close-button"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Type your question here...">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+    
+    <script>
+        // JavaScript functions for handling dropdown selections
+        function handleSkillsSelect(value) {
+            const textInput = document.getElementById('skills');
+            if (value === 'other') {
+                textInput.style.display = 'block';
+                textInput.value = '';
+                textInput.focus();
+            } else if (value !== '') {
+                textInput.style.display = 'block';
+                switch(value) {
+                    case 'programming':
+                        textInput.value = 'JavaScript, Python, Web Development, Problem Solving';
+                        break;
+                    case 'design':
+                        textInput.value = 'UI/UX Design, Graphic Design, Creative Thinking, Visual Communication';
+                        break;
+                    case 'data':
+                        textInput.value = 'Data Analysis, Statistics, SQL, Data Visualization';
+                        break;
+                    case 'communication':
+                        textInput.value = 'Communication, Teamwork, Presentation, Writing';
+                        break;
+                    case 'management':
+                        textInput.value = 'Project Management, Leadership, Organization, Planning';
+                        break;
+                }
+            } else {
+                textInput.style.display = 'none';
+            }
+        }
+        
+        function handleInterestsSelect(value) {
+            const textInput = document.getElementById('interests');
+            if (value === 'other') {
+                textInput.style.display = 'block';
+                textInput.value = '';
+                textInput.focus();
+            } else if (value !== '') {
+                textInput.style.display = 'block';
+                switch(value) {
+                    case 'technology':
+                        textInput.value = 'Software Development, AI/ML, Emerging Technologies';
+                        break;
+                    case 'science':
+                        textInput.value = 'Research, Scientific Discovery, Physics, Biology';
+                        break;
+                    case 'business':
+                        textInput.value = 'Entrepreneurship, Marketing, Business Strategy';
+                        break;
+                    case 'arts':
+                        textInput.value = 'Design, Creative Arts, Music, Literature';
+                        break;
+                    case 'health':
+                        textInput.value = 'Healthcare, Fitness, Mental Health, Nutrition';
+                        break;
+                }
+            } else {
+                textInput.style.display = 'none';
+            }
+        }
+        
+        function handleEducationSelect(value) {
+            const textInput = document.getElementById('education');
+            if (value === 'other') {
+                textInput.style.display = 'block';
+                textInput.value = '';
+                textInput.focus();
+            } else if (value !== '') {
+                textInput.style.display = 'block';
+                switch(value) {
+                    case 'high_school':
+                        textInput.value = 'High School Diploma';
+                        break;
+                    case 'associates':
+                        textInput.value = 'Associate\'s Degree';
+                        break;
+                    case 'bachelors':
+                        textInput.value = 'Bachelor\'s Degree';
+                        break;
+                    case 'masters':
+                        textInput.value = 'Master\'s Degree';
+                        break;
+                    case 'phd':
+                        textInput.value = 'Ph.D. or Doctorate';
+                        break;
+                    case 'certifications':
+                        textInput.value = 'Professional Certifications';
+                        break;
+                }
+            } else {
+                textInput.style.display = 'none';
+            }
+        }
+        
+        function handleExperienceSelect(value) {
+            const textInput = document.getElementById('experience');
+            if (value === 'other') {
+                textInput.style.display = 'block';
+                textInput.value = '';
+                textInput.focus();
+            } else if (value !== '') {
+                textInput.style.display = 'block';
+                switch(value) {
+                    case 'student':
+                        textInput.value = 'Currently a student with no professional experience';
+                        break;
+                    case 'entry':
+                        textInput.value = 'Entry-level position with 0-2 years of experience';
+                        break;
+                    case 'mid':
+                        textInput.value = 'Mid-level professional with 3-5 years of experience';
+                        break;
+                    case 'senior':
+                        textInput.value = 'Senior-level professional with 6-10 years of experience';
+                        break;
+                    case 'expert':
+                        textInput.value = 'Expert with over 10 years of professional experience';
+                        break;
+                }
+            } else {
+                textInput.style.display = 'none';
+            }
+        }
+        
+        function handleEnvironmentSelect(value) {
+            const textInput = document.getElementById('work_environment');
+            if (value === 'other') {
+                textInput.style.display = 'block';
+                textInput.value = '';
+                textInput.focus();
+            } else if (value !== '') {
+                textInput.style.display = 'block';
+                switch(value) {
+                    case 'remote':
+                        textInput.value = 'Fully remote work environment';
+                        break;
+                    case 'hybrid':
+                        textInput.value = 'Hybrid (mix of remote and office-based work)';
+                        break;
+                    case 'office':
+                        textInput.value = 'Traditional office environment';
+                        break;
+                    case 'outdoors':
+                        textInput.value = 'Outdoor or field-based work environment';
+                        break;
+                    case 'travel':
+                        textInput.value = 'Position requiring frequent travel';
+                        break;
+                }
+            } else {
+                textInput.style.display = 'none';
+            }
+        }
+        
+        function handleGoalsSelect(value) {
+            const textInput = document.getElementById('career_goals');
+            if (value === 'other') {
+                textInput.style.display = 'block';
+                textInput.value = '';
+                textInput.focus();
+            } else if (value !== '') {
+                textInput.style.display = 'block';
+                switch(value) {
+                    case 'advancement':
+                        textInput.value = 'Advancement to a leadership or management position';
+                        break;
+                    case 'change':
+                        textInput.value = 'Change to a new career path or industry';
+                        break;
+                    case 'stability':
+                        textInput.value = 'Find a stable, long-term position with good security';
+                        break;
+                    case 'learning':
+                        textInput.value = 'Continuous learning and skill development';
+                        break;
+                    case 'entrepreneurship':
+                        textInput.value = 'Start my own business or work independently';
+                        break;
+                }
+            } else {
+                textInput.style.display = 'none';
+            }
+        }
+        
+        function handleAdditionalSelect(value) {
+            const textInput = document.getElementById('additional_info');
+            if (value === 'other') {
+                textInput.style.display = 'block';
+                textInput.value = '';
+                textInput.focus();
+            } else if (value !== '') {
+                textInput.style.display = 'block';
+                switch(value) {
+                    case 'relocation':
+                        textInput.value = 'I am willing to relocate for the right opportunity';
+                        break;
+                    case 'salary':
+                        textInput.value = 'My salary expectations are in the range of [specify range]';
+                        break;
+                    case 'benefits':
+                        textInput.value = 'I value healthcare, retirement benefits, and professional development opportunities';
+                        break;
+                    case 'worklife':
+                        textInput.value = 'Work-life balance is important to me, including flexible hours';
+                        break;
+                }
+            } else {
+                textInput.style.display = 'none';
+            }
+        }
+        
+        // Initialize the form on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show textareas for fields that already have values (from previous form)
+            const fields = ['skills', 'interests', 'education', 'experience', 'work_environment', 'career_goals', 'additional_info'];
+            fields.forEach(field => {
+                const textInput = document.getElementById(field);
+                if (textInput.value.trim() !== '') {
+                    textInput.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

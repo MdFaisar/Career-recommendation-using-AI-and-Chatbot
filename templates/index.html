@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Advisor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add cache control meta tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">Code Titans</div>
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            </div>
+            <h1>AI Career Path Advisor</h1>
+            <p>Discover your ideal career path with AI-powered recommendations</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-content">
+                    <h2>How it works</h2>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">
+                                <h3>Take fun skill assessments</h3>
+                                <p>Interactive games to discover your strengths and interests</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">
+                                <h3>Share your background</h3>
+                                <p>Tell us about your education, experience, and preferences</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">
+                                <h3>Get personalized recommendations</h3>
+                                <p>Receive AI-powered career suggestions tailored to you</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="{{ url_for('assessment') }}" class="primary-btn">Start Career Discovery</a>
+                        <a href="{{ url_for('profile_form') }}" class="secondary-btn">Skip Assessment</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Team Code Titans</p>
+        </footer>
+    </div>
+    
+    <!-- Chatbot Button -->
+    <button id="chatbotButton" class="chatbot-button">
+        <i class="fas fa-comment"></i>
+    </button>
+
+    <!-- Chatbot Dialog -->
+    <div id="chatbotDialog" class="chatbot-dialog">
+        <div class="chatbot-header">
+            <h3>Career Assistant</h3>
+            <button id="closeChatbot" class="close-button"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+                <div class="message-content">Hello! I'm your AI Career Assistant. How can I help you with your career questions today?</div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Type your question here...">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+    <script>
+        // Add event listener for logout button to clear localStorage/sessionStorage
+        document.querySelector('.logout-btn').addEventListener('click', function() {
+            // Clear browser storage
+            localStorage.clear();
+            sessionStorage.clear();
+        });
+    </script>
+
+</body>
+</html>

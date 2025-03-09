@@ -1,0 +1,8 @@
+flask==2.3.3
+python-dotenv==1.0.0
+requests==2.31.0
+flask_sqlalchemy==3.0.3
+flask_login==0.6.2
+flask_wtf==1.1.0
+markdown
+email_validator==2.0.0
