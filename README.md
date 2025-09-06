@@ -209,7 +209,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [Groq](https://groq.com/) for providing the AI API
+- [Firebase](https://firebase.google.com/) for providing cloud services and authentication
 - [Flask](https://flask.palletsprojects.com/) community for the excellent framework
 - All contributors who helped make this project better
 
