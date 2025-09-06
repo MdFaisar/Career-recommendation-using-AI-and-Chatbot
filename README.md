@@ -1,6 +1,6 @@
 # 🎯 AI Career Path Advisor
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_App-blue?style=for-the-badge)](https://tripai.pythonanywhere.com/)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_App-blue?style=for-the-badge)](https://faisar.pythonanywhere.com/)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/MdFaisar/Career-recommendation-using-AI-and-Chatbot)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -70,7 +70,7 @@ git clone https://github.com/MdFaisar/Career-recommendation-using-AI-and-Chatbot
 cd Career-recommendation-using-AI-and-Chatbot
 
 # Set up environment variables
-cp .env.example .env
+cp .env
 
 # Install dependencies
 pip install -r requirements.txt
@@ -284,7 +284,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 📧 **Email**: support@career-advisor.com
 - 💬 **Issues**: [GitHub Issues](https://github.com/MdFaisar/Career-recommendation-using-AI-and-Chatbot/issues)
 - 📖 **Documentation**: [Wiki](https://github.com/MdFaisar/Career-recommendation-using-AI-and-Chatbot/wiki)
-- 🌐 **Live Demo**: [https://tripai.pythonanywhere.com/](https://tripai.pythonanywhere.com/)
+- 🌐 **Live Demo**: [https://faisar.pythonanywhere.com/](https://faisar.pythonanywhere.com/)
 
 ---
 
@@ -292,3 +292,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   <p>Made with ❤️ by <a href="https://github.com/MdFaisar">MdFaisar</a></p>
   <p>⭐ Star this repository if it helped you!</p>
 </div>
+
