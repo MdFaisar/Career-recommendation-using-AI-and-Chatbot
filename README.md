@@ -179,7 +179,7 @@ For testing purposes, you can create an account or use these credentials if avai
 
 | Username | Password |
 |----------|----------|
-| `user1`  | `password1` |
+| `user`  | `password` |
 
 ### Getting Started
 
@@ -292,4 +292,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   <p>Made with ❤️ by <a href="https://github.com/MdFaisar">MdFaisar</a></p>
   <p>⭐ Star this repository if it helped you!</p>
 </div>
+
 
