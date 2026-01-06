@@ -6,3 +6,4 @@ flask_login==0.6.2
 flask_wtf==1.1.0
 markdown
 email_validator==2.0.0
+gunicorn
