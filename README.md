@@ -1,6 +1,6 @@
 # 🎯 AI Career Path Advisor
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_App-blue?style=for-the-badge)](https://faisar.pythonanywhere.com/)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_App-blue?style=for-the-badge)](https://career-recommendation-using-ai-and-di18.onrender.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/MdFaisar/Career-recommendation-using-AI-and-Chatbot)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -292,5 +292,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   <p>Made with ❤️ by <a href="https://github.com/MdFaisar">MdFaisar</a></p>
   <p>⭐ Star this repository if it helped you!</p>
 </div>
+
 
 
