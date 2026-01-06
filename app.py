@@ -260,7 +260,7 @@ def show_result():
     recommendation = session.get('recommendation', 'No recommendation available.')
     
     # Get assessment results for display
-    skills_results = session.get('skills_assessment', {})
+    skills_results = session.get('skills_assessment', {})     
     interests_results = session.get('interests_assessment', {})
     
     return render_template('result.html', 
@@ -285,4 +285,5 @@ def reset():
     return redirect(url_for('assessment'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+    app.run()
